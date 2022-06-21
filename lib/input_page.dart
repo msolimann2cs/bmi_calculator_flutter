@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'reusable_card_content.dart';
 import 'constants.dart';
+import 'results_page.dart';
+import 'calculator_brain.dart';
 
 enum Gender {
   // ignore: constant_identifier_names
@@ -213,17 +215,28 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            margin: EdgeInsets.only(top: 10),
-            width: double.infinity,
-            height: kBottomContainerHeight,
-            child: Center(
-              child: Text(
-                'CALCULATE',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () {
+              CalculatorBrain calc = CalculatorBrain(
+                  userHeight: userHeight, userWeight: userWeight);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ResultsPage(
+                  bmiResult: calc.calculateBMI(),
+                  resultText: calc.getResult(),
+                  interpretation: calc.getInterpretation(),
+                );
+              }));
+            },
+            child: Container(
+              color: kBottomContainerColor,
+              margin: EdgeInsets.only(top: 10),
+              width: double.infinity,
+              height: kBottomContainerHeight,
+              //padding: EdgeInsets.only(bottom: 20),
+              child: Center(
+                child: Text(
+                  'CALCULATE',
+                  style: kLargeButtonTextStyle,
                 ),
               ),
             ),
